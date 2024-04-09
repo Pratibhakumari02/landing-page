@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waking Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        input {
+            padding: 8px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Waking Clock</h1>
+    <p>Set your waking time:</p>
+    <input type="time" id="alarmTime" required>
+    <button onclick="setAlarm()">Set Alarm</button>
+
+    <script>
+        function setAlarm() {
+            const alarmTime = document.getElementById('alarmTime').value;
+            
+            // Extract hours and minutes from the alarm time
+            const [alarmHours, alarmMinutes] = alarmTime.split(':').map(Number);
+
+            // Get the current time
+            const currentTime = new Date();
+            const currentHours = currentTime.getHours();
+            const currentMinutes = currentTime.getMinutes();
+
+            // Set the alarm time for today with the specified hours and minutes
+            const alarmDate = new Date();
+            alarmDate.setHours(alarmHours);
+            alarmDate.setMinutes(alarmMinutes);
+            alarmDate.setSeconds(0);
+
+            // If the alarm time has already passed for today, set it for tomorrow
+            if (alarmDate < currentTime) {
+                alarmDate.setDate(alarmDate.getDate() + 1);
+            }
+
+            // Calculate the time difference in milliseconds
+            const timeDifference = alarmDate - currentTime;
+
+            // Set a timeout to trigger the alarm when the time comes
+            setTimeout(() => {
+                alert('Wake up! It\'s time!');
+            }, timeDifference);
+        }
+    </script>
+</body>
+</html>
